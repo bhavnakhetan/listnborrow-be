@@ -1,6 +1,7 @@
 package com.bhavna.listnborrow.controller;
 
 import com.bhavna.listnborrow.dtos.ItemDto;
+import com.bhavna.listnborrow.exceptions.BadRequestException;
 import com.bhavna.listnborrow.exceptions.InvalidOwnerIdException;
 import com.bhavna.listnborrow.model.Item;
 import com.bhavna.listnborrow.model.Owner;
@@ -10,6 +11,7 @@ import com.bhavna.listnborrow.service.ItemService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +50,8 @@ public class ItemController {
     @PostMapping()
     public ResponseEntity<Item> createItem(@Valid @RequestBody ItemDto itemDto) {
         Owner owner= ownerRepository.findById(itemDto.getOwnerId()).orElseThrow(()->new InvalidOwnerIdException ("Invalid Owner Id"));
+        if (itemDto.getId()!=null)
+            throw new BadRequestException("Cannot set ID while creating Item");
         Item item=new Item();
         item.setItemName(itemDto.getItemName());
         item.setItemDescription(itemDto.getItemDescription());

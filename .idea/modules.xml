@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/listnborrow-be.iml" filepath="$PROJECT_DIR$/.idea/listnborrow-be.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/listnborrow/com.bhavna.listnborrow-be.listnborrow.main.iml" filepath="$PROJECT_DIR$/.idea/modules/listnborrow/com.bhavna.listnborrow-be.listnborrow.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/listnborrow.main.iml" filepath="$PROJECT_DIR$/.idea/modules/listnborrow.main.iml" />
     </modules>
   </component>
