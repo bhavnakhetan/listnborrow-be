@@ -1,5 +1,7 @@
 package com.bhavna.listnborrow.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -17,6 +19,7 @@ public class Item{
     private Float amountCharged;
     @ManyToOne()
     @JoinColumn(name="ownerId", nullable=false)
+    @JsonManagedReference
     private Owner owner;
     @Column(name="borrowed")
     private Boolean borrowed;

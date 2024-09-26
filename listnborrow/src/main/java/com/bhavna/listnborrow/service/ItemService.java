@@ -41,4 +41,8 @@ public class ItemService {
     public List<Item> getAllItemsByAmount(Float amountCharged) {
         return itemRepository.findItemsByAmount(amountCharged);
     }
+
+    public Boolean doesIdExist(Long id) {
+        return itemRepository.existsById(id);
+    }
 }

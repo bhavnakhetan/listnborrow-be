@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.Date;
 import java.util.List;
@@ -30,11 +31,32 @@ public class ItemController {
     private OwnerRepository ownerRepository;
 
     @GetMapping
-    public List<Item> getAllItems(@RequestParam(value = "amount", required = false) Float amountCharged) {
-        if (amountCharged != null) return itemService.getAllItemsByAmount(amountCharged);
-        else return itemService.getAllItems();
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "amount", required = false) Float amountCharged) {
+        List<Item> items;
+        if (amountCharged != null)
+            items= itemService.getAllItemsByAmount(amountCharged);
+        else
+            items= itemService.getAllItems();
+        return ResponseEntity.ok(items);
     }
-
+//// How to call this from UI
+// URL without query parameter
+//axios.get('/api/items')
+//        .then(response => {
+//        console.log(response.data); // Handle the response data
+//    })
+//            .catch(error => {
+//        console.error('Error fetching items:', error);
+//    });
+//
+//// URL with query parameter
+//axios.get('/api/items', { params: { amount: 10.5 } })
+//            .then(response => {
+//        console.log(response.data); // Handle the response data
+//    })
+//            .catch(error => {
+//        console.error('Error fetching items with amount:', error);
+//    });
     @GetMapping ("/{id}")
     public ResponseEntity<Item> getItemById(@PathVariable Long id){
         Item item= itemService.getItemById(id);
@@ -64,8 +86,12 @@ public class ItemController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long id){
-        boolean deleted = itemService.deleteItem(id);
-        return deleted? ResponseEntity.ok().build(): ResponseEntity.notFound().build();
+        boolean isExists = itemService.doesIdExist(id);
+        if (isExists){
+            boolean deleted = itemService.deleteItem(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

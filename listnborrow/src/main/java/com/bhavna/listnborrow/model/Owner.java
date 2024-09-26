@@ -1,5 +1,7 @@
 package com.bhavna.listnborrow.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,7 +16,16 @@ public class Owner {
     private String address;
     private String phonenum;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Item> items;
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 
     public Owner() {
     }
